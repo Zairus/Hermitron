@@ -1,0 +1,6 @@
+{
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "hermitron:items/a_0_c_skeleton"
+	}
+}

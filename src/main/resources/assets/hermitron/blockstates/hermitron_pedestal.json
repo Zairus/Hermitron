@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"facing=east": {
+			"model": "hermitron:hermitron_pedestal",
+			"y": 270
+		},
+		"facing=south": {
+			"model": "hermitron:hermitron_pedestal",
+			"y": 0
+		},
+		"facing=west": {
+			"model": "hermitron:hermitron_pedestal",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "hermitron:hermitron_pedestal",
+			"y": 180
+		}
+    }
+}

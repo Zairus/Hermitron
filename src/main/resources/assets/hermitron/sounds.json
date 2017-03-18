@@ -1,0 +1,28 @@
+{
+	"hermitron_case_open": {
+		"category": "master",
+		"sounds": [
+			{ "name": "hermitron:hermitron_case_open1", "stream": false }
+		]
+	},
+	"hermitron_case_close": {
+		"category": "master",
+		"sounds": [
+			{ "name": "hermitron:hermitron_case_close1", "stream": false }
+		]
+	},
+	"card_handle": {
+		"category": "master",
+		"sounds": [
+			{ "name": "hermitron:card_handle1", "stream": false },
+			{ "name": "hermitron:card_handle2", "stream": false },
+			{ "name": "hermitron:card_handle3", "stream": false }
+		]
+	},
+	"set_complete": {
+		"category": "master",
+		"sounds": [
+			{ "name": "hermitron:set_complete", "stream": false }
+		]
+	}
+}

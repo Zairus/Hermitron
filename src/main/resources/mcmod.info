@@ -1,0 +1,16 @@
+[
+{
+  "modid": "hermitron",
+  "name": "Hermitron",
+  "description": "Collect them all Hermitrons!",
+  "version": "0.1.6-beta",
+  "mcversion": "1.10.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["ReNDoG","Iskall85","Winter_Grave","YeaMinecraft16"],
+  "credits": "ReNDoG, Game Inventor; Winter_Grave, Concept & Code; Iskall85, Concept & Textures; YeaMinecraft16, Textures",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

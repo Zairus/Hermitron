@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "hermitron:blocks/pedestal_top",
+        "down": "hermitron:blocks/plain_white",
+        "up": "hermitron:blocks/pedestal_top",
+        "north": "hermitron:blocks/pedestal_side",
+        "east": "hermitron:blocks/pedestal_side",
+        "south": "hermitron:blocks/pedestal_side",
+        "west": "hermitron:blocks/pedestal_side"
+    }
+}
