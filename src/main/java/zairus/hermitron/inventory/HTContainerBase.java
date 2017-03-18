@@ -108,15 +108,14 @@ public class HTContainerBase extends Container
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			
-			if (index < 54)
+			if (index < (this.rows * this.columns))
 			{
-				
-				if (!this.mergeItemStack(itemstack1, 53, this.inventorySlots.size(), true))
+				if (!this.mergeItemStack(itemstack1, ((this.rows * this.columns) - 0), this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(itemstack1, 0, 54, false))
+			else if (!this.mergeItemStack(itemstack1, 0, (this.rows * this.columns), false))
 			{
 				return null;
 			}

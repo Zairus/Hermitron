@@ -25,6 +25,9 @@ public class PedestalRecipe implements IRecipe
 				return false;
 		}
 		
+		if (inv.getStackInSlot(4) == null)
+			return false;
+		
 		if (!(inv.getStackInSlot(4).getItem() instanceof ItemHermitron))
 			return false;
 		

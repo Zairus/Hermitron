@@ -7,5 +7,6 @@ public class HTCraftingHandler
 	public static void addRecipes()
 	{
 		GameRegistry.addRecipe(new PedestalRecipe());
+		GameRegistry.addRecipe(new ScoreboardRecipe());
 	}
 }

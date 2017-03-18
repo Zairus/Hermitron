@@ -19,6 +19,9 @@ public class ScoreboardRecipe implements IRecipe
 	{
 		boolean m = true;
 		
+		if (inv.getStackInSlot(4) == null)
+			return false;
+		
 		if (!(inv.getStackInSlot(4).getItem() instanceof ItemHermitron))
 			return false;
 		
