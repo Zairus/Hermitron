@@ -20,11 +20,14 @@ import zairus.hermitron.HTConstants;
 import zairus.hermitron.inventory.SlotHermitronCase;
 import zairus.hermitron.item.HTItems;
 import zairus.hermitron.item.ItemHermitron;
+import zairus.hermitron.item.ItemHermitron.Version;
 import zairus.hermitron.sound.HTSoundEvents;
 
 public class TileEntityHermitronCase extends HTTileEntityBase
 {
-	private static final ResourceLocation CHEST_TEXTURES = new ResourceLocation(HTConstants.MODID, "textures/entity/hermitron_case.png");
+	private static final ResourceLocation ALPHA_TEXTURES = new ResourceLocation(HTConstants.MODID, "textures/entity/hermitron_case.png");
+	private static final ResourceLocation BETA_TEXTURES = new ResourceLocation(HTConstants.MODID, "textures/entity/hermitron_case_beta.png");
+	private static final ResourceLocation GAMMA_TEXTURES = new ResourceLocation(HTConstants.MODID, "textures/entity/hermitron_case_gamma.png");
 	
 	private ItemStack[] chestContents = new ItemStack[27];
 	private ItemHermitron.Version case_version;
@@ -111,7 +114,7 @@ public class TileEntityHermitronCase extends HTTileEntityBase
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getTextures()
 	{
-		return CHEST_TEXTURES;
+		return (this.case_version == Version.ALPHA)? ALPHA_TEXTURES : (this.case_version == Version.BETA)? BETA_TEXTURES : GAMMA_TEXTURES;
 	}
 	
 	@Override

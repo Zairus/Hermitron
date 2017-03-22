@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = "0.1.8-beta"
+version = "0.2.10"
 group = "zairus.hermitron"
 archivesBaseName = "hermitron-1.10.2"
 

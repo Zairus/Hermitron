@@ -81,22 +81,22 @@ public class TileEntityHermitronScoreboardRenderer extends TileEntitySpecialRend
 		
 		if (i == 2)
 		{
-			j = 180;
+			j = 90;
 		}
 		
 		if (i == 3)
 		{
-			j = 0;
+			j = -90;
 		}
 		
 		if (i == 4)
 		{
-			j = 90;
+			j = 0;
 		}
 		
 		if (i == 5)
 		{
-			j = -90;
+			j = 180;
 		}
 		
 		GlStateManager.rotate((float)j, 0.0F, 1.0F, 0.0F);

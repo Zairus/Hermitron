@@ -2,7 +2,6 @@ package zairus.hermitron.block;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -12,9 +11,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,17 +23,15 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 import zairus.hermitron.Hermitron;
 import zairus.hermitron.client.renderer.ISpecialRendered;
 import zairus.hermitron.client.renderer.tileentity.TileEntityHermitronPedestalRenderer;
 import zairus.hermitron.handlers.GuiHandler;
 import zairus.hermitron.stats.HTStatList;
-import zairus.hermitron.tileentity.HTTileEntityBase;
 import zairus.hermitron.tileentity.TileEntityHermitronPedestal;
 
-public class BlockHermitronPedestal extends BlockContainer implements ISpecialRendered, IBlockBase
+public class BlockHermitronPedestal extends BlockHermitronContainerBase implements ISpecialRendered, IBlockBase
 {
 	private String blockName = "";
 	
@@ -47,7 +41,7 @@ public class BlockHermitronPedestal extends BlockContainer implements ISpecialRe
 	
 	public BlockHermitronPedestal()
 	{
-		super(Material.CIRCUITS);
+		super(Material.GROUND);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setCreativeTab(Hermitron.creativeTab);
 		this.setHardness(1.5F);
@@ -225,122 +219,6 @@ public class BlockHermitronPedestal extends BlockContainer implements ISpecialRe
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
 	{
 		return true;
-	}
-	
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		TileEntity tileentity = worldIn.getTileEntity(pos);
-		
-		if (tileentity instanceof IInventory)
-			worldIn.updateComparatorOutputLevel(pos, this);
-		
-		super.breakBlock(worldIn, pos, state);
-	}
-	
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, @Nullable ItemStack stack)
-	{
-		Item item = this.getItemDropped(state, world.rand, 0);
-		ItemStack itemStack = new ItemStack(item, 1, this.damageDropped(state));
-		
-		if (te instanceof HTTileEntityBase)
-		{
-			if (!((HTTileEntityBase)te).isEmpty())
-			{
-				NBTTagCompound tag = new NBTTagCompound();
-				tag = ((HTTileEntityBase)te).writeToNBT(tag);
-				itemStack.setTagCompound(new NBTTagCompound());
-				itemStack.getTagCompound().setTag("chestContents", tag);
-			}
-		}
-		
-		spawnAsEntity(world, pos, itemStack);
-	}
-	
-	@Nullable
-	public ILockableContainer getLockableContainer(World world, BlockPos pos)
-	{
-		return this.getContainer(world, pos, false);
-	}
-	
-	@Nullable
-	public ILockableContainer getContainer(World world, BlockPos pos, boolean flag)
-	{
-		TileEntity tileentity = world.getTileEntity(pos);
-		
-		if (!(tileentity instanceof TileEntityHermitronPedestal))
-		{
-			return null;
-		}
-		else
-		{
-			ILockableContainer ilockablecontainer = (TileEntityHermitronPedestal)tileentity;
-			
-			if (this.isBlocked(world, pos))
-			{
-				return null;
-			}
-			else
-			{
-				return ilockablecontainer;
-			}
-		}
-	}
-	
-	@Override
-	public boolean canProvidePower(IBlockState state)
-	{
-		return true;
-	}
-	
-	@Override
-	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
-	{
-		if (!blockState.canProvidePower())
-		{
-			return 0;
-		}
-		else
-		{
-			int i = 0;
-			TileEntity tileentity = blockAccess.getTileEntity(pos);
-			
-			if (tileentity instanceof TileEntityHermitronPedestal)
-			{
-				i = ((TileEntityHermitronPedestal)tileentity).playersUsing;
-			}
-			
-			return MathHelper.clamp_int(i, 0, 15);
-		}
-	}
-	
-	@Override
-	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
-	{
-		return side == EnumFacing.UP ? blockState.getWeakPower(blockAccess, pos, side) : 0;
-	}
-	
-	private boolean isBlocked(World worldIn, BlockPos pos)
-	{
-		return this.isBelowSolidBlock(worldIn, pos);
-	}
-	
-	private boolean isBelowSolidBlock(World worldIn, BlockPos pos)
-	{
-		return worldIn.getBlockState(pos.up()).isSideSolid(worldIn, pos.up(), EnumFacing.DOWN);
-	}
-	
-	@Override
-	public boolean hasComparatorInputOverride(IBlockState state)
-	{
-		return true;
-	}
-	
-	@Override
-	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos)
-	{
-		return Container.calcRedstoneFromInventory(this.getLockableContainer(worldIn, pos));
 	}
 	
 	@Override

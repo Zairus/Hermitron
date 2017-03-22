@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import zairus.hermitron.block.HTBlocks;
-import zairus.hermitron.item.ItemHermitron;
+import zairus.hermitron.item.ItemHermitron.Version;
 import zairus.hermitron.tileentity.TileEntityHermitronCase;
 
 public class WorldGenHermitronCase extends WorldGenDecorationBase
@@ -75,8 +76,10 @@ public class WorldGenHermitronCase extends WorldGenDecorationBase
 		if (world.getBlockState(pos.down()).getBlock() == Blocks.WATER)
 			return false;
 		
+		Version v = Version.values()[rand.nextInt(Version.values().length -1)];
+		Block caseBlock = (v == Version.ALPHA) ? HTBlocks.HERMITRON_CASE : (v == Version.BETA)? HTBlocks.HERMITRON_CASE_BETA : HTBlocks.HERMITRON_CASE_GAMMA;
 		IBlockState glass_casing = Blocks.STAINED_GLASS.getDefaultState().withProperty(BlockStainedGlass.COLOR, EnumDyeColor.values()[rand.nextInt(EnumDyeColor.values().length)]);
-		IBlockState hcase = HTBlocks.HERMITRON_CASE.getDefaultState();
+		IBlockState hcase = caseBlock.getDefaultState();
 		
 		for (int x = -1; x <= 1; ++x)
 		{
@@ -91,7 +94,7 @@ public class WorldGenHermitronCase extends WorldGenDecorationBase
 						if (te != null && te instanceof TileEntityHermitronCase)
 						{
 							TileEntityHermitronCase tecase = (TileEntityHermitronCase)te;
-							tecase.setVersion(ItemHermitron.Version.ALPHA);
+							tecase.setVersion(v);
 							tecase.setLoot(rand);
 						}
 					}
