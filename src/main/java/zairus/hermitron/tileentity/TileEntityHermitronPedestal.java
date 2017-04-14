@@ -174,6 +174,7 @@ public class TileEntityHermitronPedestal extends HTTileEntityBase
 				//this.worldObj.playSound(player, getPos(), HTSoundEvents.SET_COMPLETE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				
 				player.addStat(HTStatList.HERMITRON_SETS);
+				player.addStat(HTStatList.HERMITRON_SCORE, 5);
 				player.addStat(HTAchievementList.HERMITRON_COLLECTOR);
 			}
 		}

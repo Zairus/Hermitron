@@ -87,7 +87,7 @@ public class HTContainerBase extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return true;
+		return this.inventory.isUseableByPlayer(player);
 	}
 	
 	@Override

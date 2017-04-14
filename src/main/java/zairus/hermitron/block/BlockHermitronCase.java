@@ -109,7 +109,6 @@ public class BlockHermitronCase extends BlockHermitronContainerBase implements I
 	{
 		TileEntityHermitronCase hc = new TileEntityHermitronCase();
 		hc.setVersion(CASE_VERSION);
-		hc.setCustomName("Hermitron Case");
 		return hc;
 	}
 	

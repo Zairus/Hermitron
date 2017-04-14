@@ -43,7 +43,6 @@ public abstract class HTTileEntityBase extends TileEntityLockableLoot implements
 		return this.defaultName;
 	}
 	
-	
 	public abstract ItemStack[] getChestContents();
 	public abstract void setChestContents(ItemStack[] contents);
 	public abstract int getSlotXOffset();
@@ -262,7 +261,7 @@ public abstract class HTTileEntityBase extends TileEntityLockableLoot implements
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player)
 	{
-		return true;
+		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 	
 	@Override
@@ -300,11 +299,6 @@ public abstract class HTTileEntityBase extends TileEntityLockableLoot implements
 		super.readFromNBT(compound);
 		NBTTagList nbttaglist = compound.getTagList("Items", 10);
 		setChestContents(new ItemStack[this.getSizeInventory()]);
-		
-		if (compound.hasKey("CustomName", 8))
-		{
-			this.customName = compound.getString("CustomName");
-		}
 		
 		if (!this.checkLootAndRead(compound))
 		{

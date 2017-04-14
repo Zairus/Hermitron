@@ -1,5 +1,7 @@
 package zairus.hermitron.block;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockContainer;
@@ -11,6 +13,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +21,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import zairus.hermitron.tileentity.HTTileEntityBase;
 import zairus.hermitron.tileentity.TileEntityHermitronCase;
 import zairus.hermitron.tileentity.TileEntityHermitronScoreboard;
@@ -38,7 +43,6 @@ public class BlockHermitronContainerBase extends BlockContainer
 	@Override
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
 	{
-		; // Intentionally empty to prevent duplicates.
 	}
 	
 	@Override
@@ -48,19 +52,23 @@ public class BlockHermitronContainerBase extends BlockContainer
 		
 		if (tileentity != null && tileentity instanceof IInventory)
 			world.updateComparatorOutputLevel(pos, this);
-		/*
-		if (tileentity != null && tileentity instanceof HTTileEntityBase && !((HTTileEntityBase)tileentity).isEmpty())
+		
+		if (tileentity != null && tileentity instanceof HTTileEntityBase /*&& !((HTTileEntityBase)tileentity).isEmpty()*/)
 		{
 			dropWithContents(world, state, pos, tileentity);
 		}
-		*/
+		
 		super.breakBlock(world, pos, state);
+	}
+	
+	@Override
+	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+	{
 	}
 	
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, @Nullable ItemStack stack)
 	{
-		dropWithContents(world, state, pos, te);
 	}
 	
 	private void dropWithContents(World world, IBlockState state, BlockPos pos, @Nullable TileEntity te)
@@ -74,12 +82,50 @@ public class BlockHermitronContainerBase extends BlockContainer
 			{
 				NBTTagCompound tag = new NBTTagCompound();
 				tag = ((HTTileEntityBase)te).writeToNBT(tag);
+				
 				itemStack.setTagCompound(new NBTTagCompound());
 				itemStack.getTagCompound().setTag("chestContents", tag);
+				
+				if (tag.hasKey("CustomName"))
+					itemStack.setStackDisplayName(tag.getString("CustomName"));
 			}
 		}
 		
 		spawnAsEntity(world, pos, itemStack);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
+	{
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("chestContents"))
+		{
+			NBTTagCompound tag = stack.getTagCompound().getCompoundTag("chestContents");
+			
+			if (tag.hasKey("Items", 9))
+			{
+				NBTTagList nbttaglist = tag.getTagList("Items", 10);
+				
+				ItemStack itemStack;
+				
+				int itemCount = nbttaglist.tagCount();
+				if (itemCount > 8)
+					itemCount = 8;
+				
+				for (int i = 0; i < itemCount; ++i)
+				{
+					NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+					itemStack = ItemStack.loadItemStackFromNBT(nbttagcompound);
+					if (itemStack != null)
+					{
+						tooltip.add(String.format("%s x%d", new Object[] { itemStack.getDisplayName(), Integer.valueOf(itemStack.stackSize) }));
+					}
+				}
+				
+				if (nbttaglist.tagCount() > 8)
+					tooltip.add("...");
+			}
+		}
 	}
 	
 	@Nullable
