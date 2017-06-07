@@ -120,14 +120,18 @@ public class HTContainerBase extends Container
 				return null;
 			}
 			
-			if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
+			--itemstack.stackSize;
+			
+			if (itemstack.stackSize <= 0)
+			{
+				slot.putStack((ItemStack)null);
+			}
+			else
+			{
+				slot.putStack(itemstack);
+			}
+			
+			slot.onSlotChanged();
 		}
 		
 		return itemstack;

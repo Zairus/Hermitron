@@ -18,4 +18,10 @@ public class SlotPedestal extends Slot
 	{
 		return (stack.getItem() instanceof ItemHermitron) || (stack.getItem() instanceof ItemHermitronSet);
 	}
+	
+	@Override
+	public int getSlotStackLimit()
+	{
+		return 1;
+	}
 }

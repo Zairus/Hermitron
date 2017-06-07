@@ -57,16 +57,16 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 	}
 	
 	@Override
-	protected void encode(ChannelHandlerContext ctx, AbstractPacket msg,
-			List<Object> out) throws Exception
+	protected void encode(ChannelHandlerContext ctx, AbstractPacket msg, List<Object> out) throws Exception
 	{
 		ByteBuf buffer = Unpooled.buffer();
 		Class<? extends AbstractPacket> clazz = msg.getClass();
+		
 		if (!this.packets.contains(msg.getClass()))
 		{
 			throw new NullPointerException("No Packet Registered for: " + msg.getClass().getCanonicalName());
 		}
-
+		
 		byte discriminator = (byte) this.packets.indexOf(clazz);
 		buffer.writeByte(discriminator);
 		msg.encodeInto(ctx, buffer);
@@ -75,35 +75,35 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 	}
 	
 	@Override
-	protected void decode(ChannelHandlerContext ctx, FMLProxyPacket msg,
-			List<Object> out) throws Exception
+	protected void decode(ChannelHandlerContext ctx, FMLProxyPacket msg, List<Object> out) throws Exception
 	{
 		ByteBuf payload = msg.payload();
 		byte discriminator = payload.readByte();
+		
 		Class<? extends AbstractPacket> clazz = this.packets.get(discriminator);
+		
 		if (clazz == null)
 		{
 			throw new NullPointerException("No packet registered for discriminator: " + discriminator);
 		}
-
+		
 		AbstractPacket pkt = clazz.newInstance();
 		pkt.decodeInto(ctx, payload.slice());
-
+		
 		EntityPlayer player;
-		switch (FMLCommonHandler.instance().getEffectiveSide())
+		switch (FMLCommonHandler.instance().getSide())
 		{
 		case CLIENT:
 			player = this.getClientPlayer();
 			pkt.handleClientSide(player);
 			break;
-
 		case SERVER:
 			INetHandler netHandler = ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
 			player = ((NetHandlerPlayServer) netHandler).playerEntity;
 			pkt.handleServerSide(player);
 			break;
-
 		default:
+			break;
 		}
 	}
 	
@@ -125,14 +125,11 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 		{
 			return;
 		}
-
+		
 		this.isPostInitialised = true;
-		Collections.sort(this.packets,
-				new Comparator<Class<? extends AbstractPacket>>() {
-
+		Collections.sort(this.packets, new Comparator<Class<? extends AbstractPacket>>() {
 					@Override
-					public int compare(Class<? extends AbstractPacket> clazz1,
-							Class<? extends AbstractPacket> clazz2)
+					public int compare(Class<? extends AbstractPacket> clazz1, Class<? extends AbstractPacket> clazz2)
 					{
 						int com = String.CASE_INSENSITIVE_ORDER.compare(
 								clazz1.getCanonicalName(),
@@ -142,7 +139,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 							com = clazz1.getCanonicalName().compareTo(
 									clazz2.getCanonicalName());
 						}
-
+						
 						return com;
 					}
 				});

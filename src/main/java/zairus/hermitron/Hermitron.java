@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import zairus.hermitron.block.HTBlocks;
+import zairus.hermitron.command.server.CommandGenerate;
 import zairus.hermitron.command.server.CommandScore;
 import zairus.hermitron.event.HTEvents;
 import zairus.hermitron.handlers.GuiHandler;
@@ -88,5 +89,6 @@ public class Hermitron
 	public void serverLoad(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandScore());
+		event.registerServerCommand(new CommandGenerate());
 	}
 }
