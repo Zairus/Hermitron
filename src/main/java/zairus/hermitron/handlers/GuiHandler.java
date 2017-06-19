@@ -57,7 +57,7 @@ public class GuiHandler implements IGuiHandler
 			tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 			if (tileEntity instanceof TileEntityHermitronScoreboard)
 			{
-				return new HTContainerBase(player.inventory, (TileEntityHermitronScoreboard)tileEntity, player, 1, 1);
+				return new HTContainerBase(player.inventory, (TileEntityHermitronScoreboard)tileEntity, player, 0, 0);
 			}
 			break;
 		}

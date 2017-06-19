@@ -17,7 +17,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -91,19 +90,19 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 		pkt.decodeInto(ctx, payload.slice());
 		
 		EntityPlayer player;
-		switch (FMLCommonHandler.instance().getSide())
+		
+		Thread thr = Thread.currentThread();
+		
+		if (thr.getName().toLowerCase().contains("server"))
 		{
-		case CLIENT:
-			player = this.getClientPlayer();
-			pkt.handleClientSide(player);
-			break;
-		case SERVER:
 			INetHandler netHandler = ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
 			player = ((NetHandlerPlayServer) netHandler).playerEntity;
 			pkt.handleServerSide(player);
-			break;
-		default:
-			break;
+		}
+		else
+		{
+			player = this.getClientPlayer();
+			pkt.handleClientSide(player);
 		}
 	}
 	

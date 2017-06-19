@@ -54,6 +54,7 @@ public class PedestalPacket extends AbstractPacket
 		if (tileEntity instanceof TileEntityHermitronPedestal)
 		{
 			TileEntityHermitronPedestal pedestal = ((TileEntityHermitronPedestal)tileEntity);
+			
 			pedestal.completeSet(player);
 		}
 	}

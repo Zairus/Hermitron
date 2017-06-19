@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import zairus.hermitron.item.ItemHermitron;
 import zairus.hermitron.item.ItemHermitronSet;
 import zairus.hermitron.tileentity.HTTileEntityBase;
+import zairus.hermitron.tileentity.TileEntityHermitronScoreboard;
 
 public class HTContainerBase extends Container
 {
@@ -55,20 +56,23 @@ public class HTContainerBase extends Container
 			}
 		}
 		
-		// Player inventory
-		for (int l = 0; l < 3; ++l)
+		if (!(crateInventory instanceof TileEntityHermitronScoreboard))
 		{
-			for (int j1 = 0; j1 < 9; ++j1)
+			// Player inventory
+			for (int l = 0; l < 3; ++l)
 			{
-				this.addSlotToContainer(new Slot(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, (16 + 66) + l * 18));
+				for (int j1 = 0; j1 < 9; ++j1)
+				{
+					this.addSlotToContainer(new Slot(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, (16 + 66) + l * 18));
+				}
 			}
+			
+			// Hotbar
+	        for (int i1 = 0; i1 < 9; ++i1)
+	        {
+	            this.addSlotToContainer(new Slot(playerInventory, i1, 8 + i1 * 18, 16 + 124));
+	        }
 		}
-		
-		// Hotbar
-        for (int i1 = 0; i1 < 9; ++i1)
-        {
-            this.addSlotToContainer(new Slot(playerInventory, i1, 8 + i1 * 18, 16 + 124));
-        }
 	}
 	
 	public HTContainerBase(IInventory playerInventory, IInventory crateInventory, EntityPlayer player)

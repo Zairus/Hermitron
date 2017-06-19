@@ -138,7 +138,9 @@ public class TileEntityHermitronPedestal extends HTTileEntityBase
 			ItemStack stack = this.getStackInSlot(0);
 			
 			if (stack == null)
+			{
 				return;
+			}
 			
 			ItemHermitron itemHermitron = (ItemHermitron)stack.getItem();
 			
@@ -170,8 +172,6 @@ public class TileEntityHermitronPedestal extends HTTileEntityBase
 				HTDataManager.get(getWorld()).markDirty();
 				
 				Hermitron.packetPipeline.sendToAll(new PedestalCompletePacket(score));
-				//this.worldObj.getMinecraftServer().addChatMessage(new TextComponentString(playerName + " now has " + score + " Hermitron points."));
-				//this.worldObj.playSound(player, getPos(), HTSoundEvents.SET_COMPLETE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				
 				player.addStat(HTStatList.HERMITRON_SETS);
 				player.addStat(HTStatList.HERMITRON_SCORE, 5);
