@@ -1,16 +1,19 @@
 package zairus.hermitron.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import zairus.hermitron.block.HTBlocks;
+import zairus.hermitron.item.HTItems;
 import zairus.hermitron.item.ItemHermitron;
 
-public class ScoreboardRecipe implements IRecipe
+public class ScoreboardRecipe implements IHTRecipe
 {
 	private ItemStack scoreboard = new ItemStack(HTBlocks.HERMITRON_SCOREBOARD);
 	
@@ -74,5 +77,40 @@ public class ScoreboardRecipe implements IRecipe
 		}
 		
 		return aitemstack;
+	}
+	
+	@Override
+	public List<List<ItemStack>> getCrafting()
+	{
+		List<ItemStack> craftingOption;
+		List<List<ItemStack>> options = new ArrayList<List<ItemStack>>();
+		
+		craftingOption = new ArrayList<ItemStack>();
+		
+		options.add(craftingOption);
+		options.add(craftingOption);
+		options.add(craftingOption);
+		
+		craftingOption = new ArrayList<ItemStack>();
+		for (List<ItemHermitron> hermitronList : HTItems.hermitron_sets.values())
+		{
+			for (ItemHermitron hermitron : hermitronList)
+			{
+				craftingOption.add(new ItemStack(hermitron));
+			}
+		}
+		
+		options.add(new ArrayList<ItemStack>());
+		options.add(craftingOption);
+		options.add(new ArrayList<ItemStack>());
+		
+		craftingOption = new ArrayList<ItemStack>();
+		craftingOption.add(new ItemStack(Blocks.LAPIS_BLOCK));
+		
+		options.add(craftingOption);
+		options.add(craftingOption);
+		options.add(craftingOption);
+		
+		return options;
 	}
 }
