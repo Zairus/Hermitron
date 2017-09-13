@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import zairus.hermitron.HTConstants;
 import zairus.hermitron.Hermitron;
 import zairus.hermitron.handlers.GuiHandler;
@@ -83,6 +84,7 @@ public class ItemHermitron extends ItemBase
 	{
 		super.register();
 		HTItems.hermitron_sets.get(this.version).add(this);
+		OreDictionary.registerOre("itemHermitron" + this.version.getName() + this.rarity.getName(), this);
 	}
 	
 	@Override
